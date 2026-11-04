@@ -1,0 +1,12 @@
+{
+  "name": "hotel-booking",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Hotel booking app – P03/P04 lesson project",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "race":  "node main.js --race",
+    "test":  "node --test"
+  }
+}

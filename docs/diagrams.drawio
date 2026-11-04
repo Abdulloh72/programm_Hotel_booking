@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="21.0.0">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       Sahifa 1 · Classes - before  (P03 dizayn)
+  ════════════════════════════════════════════════════════════════════ -->
+  <diagram id="before" name="Classes - before">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1"
+                  tooltips="1" connect="1" arrows="1" fold="1" page="1"
+                  pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ── BookingService ── -->
+        <mxCell id="bs" value="BookingService" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="300" y="40" width="220" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="bs_f" value="rooms&#xa;store&#xa;email" parent="bs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="220" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="bs_m" value="FindFreeRooms(stay)&#xa;Reserve(guest, room, stay)&#xa;Cancel(id)" parent="bs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="72" width="220" height="58" as="geometry"/>
+        </mxCell>
+
+        <!-- ── ReservationStore ── -->
+        <mxCell id="rs" value="ReservationStore" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="80" y="280" width="210" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="rs_f" value="rows" parent="rs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="210" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="rs_m" value="HasOverlap(room, stay)&#xa;Save(reservation)&#xa;Find(id)" parent="rs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="52" width="210" height="58" as="geometry"/>
+        </mxCell>
+
+        <!-- ── EmailSender ── -->
+        <mxCell id="es" value="EmailSender" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;">
+          <mxGeometry x="490" y="280" width="210" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="es_f" value="Sent" parent="es" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="210" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="es_m" value="SendConfirmation(reservation)" parent="es" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="52" width="210" height="28" as="geometry"/>
+        </mxCell>
+
+        <!-- ── "uses" strelkalar (to'g'ridan-to'g'ri, qattiq) ── -->
+        <mxCell id="arr_bs_rs" value="uses this exact class" parent="1" edge="1"
+                source="bs" target="rs"
+                style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;fontSize=10;align=center;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr_bs_es" value="uses this exact class" parent="1" edge="1"
+                source="bs" target="es"
+                style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;fontSize=10;align=center;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       Sahifa 2 · Classes - after  (P04 maqsad dizayn)
+  ════════════════════════════════════════════════════════════════════ -->
+  <diagram id="after" name="Classes - after">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1"
+                  tooltips="1" connect="1" arrows="1" fold="1" page="1"
+                  pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ══════════════ QATOR 1: BookingService ══════════════ -->
+
+        <mxCell id="bs" value="BookingService" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;">
+          <mxGeometry x="480" y="30" width="240" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="bs_f" value="rooms&#xa;store&#xa;notifications" parent="bs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="240" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="bs_m" value="FindFreeRooms(stay)&#xa;Reserve(guest, room, stay)&#xa;Cancel(id)" parent="bs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="72" width="240" height="58" as="geometry"/>
+        </mxCell>
+
+        <!-- ══════════════ QATOR 2: Interfeyslari ══════════════ -->
+
+        <!-- IReservationStore -->
+        <mxCell id="irs" value="«interface»&#xa;IReservationStore" parent="1" vertex="1"
+                style="swimlane;fontStyle=3;align=center;startSize=40;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;">
+          <mxGeometry x="160" y="250" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="irs_f" value="Count" parent="irs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="40" width="240" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="irs_m" value="HasOverlap(room, stay)&#xa;Save(reservation)&#xa;Find(id)" parent="irs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="66" width="240" height="64" as="geometry"/>
+        </mxCell>
+
+        <!-- INotificationSender -->
+        <mxCell id="ins" value="«interface»&#xa;INotificationSender" parent="1" vertex="1"
+                style="swimlane;fontStyle=3;align=center;startSize=40;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;">
+          <mxGeometry x="800" y="250" width="240" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ins_m" value="SendConfirmation(reservation)" parent="ins" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="40" width="240" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ══════════════ QATOR 3: Implementatsiyalar ══════════════ -->
+
+        <!-- InMemoryReservationStore -->
+        <mxCell id="imrs" value="InMemoryReservationStore" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="60" y="500" width="230" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="imrs_f" value="rows" parent="imrs" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="230" height="54" as="geometry"/>
+        </mxCell>
+
+        <!-- EmailNotificationSender -->
+        <mxCell id="ens" value="EmailNotificationSender" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="640" y="500" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="ens_f" value="Sent" parent="ens" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="220" height="54" as="geometry"/>
+        </mxCell>
+
+        <!-- SmsNotificationSender -->
+        <mxCell id="sns" value="SmsNotificationSender" parent="1" vertex="1"
+                style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;">
+          <mxGeometry x="880" y="500" width="200" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="sns_f" value="Sent" parent="sns" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="26" width="200" height="54" as="geometry"/>
+        </mxCell>
+
+        <!-- FakeNotificationSender (tests only) -->
+        <mxCell id="fns" value="«tests only»&#xa;FakeNotificationSender" parent="1" vertex="1"
+                style="swimlane;fontStyle=3;align=center;startSize=40;fillColor=#ffe6cc;strokeColor=#d6b656;">
+          <mxGeometry x="1100" y="500" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="fns_f" value="Sent" parent="fns" vertex="1"
+                style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;">
+          <mxGeometry y="40" width="220" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ══════════════ STRELKALAR ══════════════ -->
+
+        <!-- "uses" (kesikli chiziq, ochiq o'q) -->
+        <mxCell id="arr_bs_irs" value="uses" parent="1" edge="1"
+                source="bs" target="irs"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=11;fontStyle=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="arr_bs_ins" value="uses" parent="1" edge="1"
+                source="bs" target="ins"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;fontSize=11;fontStyle=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- "implements" (kesikli chiziq, bo'sh uchburchak) -->
+        <mxCell id="arr_imrs_irs" value="" parent="1" edge="1"
+                source="imrs" target="irs"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=block;endFill=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="arr_ens_ins" value="" parent="1" edge="1"
+                source="ens" target="ins"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=block;endFill=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="arr_sns_ins" value="" parent="1" edge="1"
+                source="sns" target="ins"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=block;endFill=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="arr_fns_ins" value="" parent="1" edge="1"
+                source="fns" target="ins"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=block;endFill=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>
