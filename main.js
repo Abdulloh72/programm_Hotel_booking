@@ -1,38 +1,30 @@
-// main.js — demo va race demo
-//
-// Bu fayl "sim" (wiring) joyi:
-// faqat shu yerda qaysi Store va qaysi Sender tanlanadi.
-// BookingService bu tanlovni bilmaydi.
+// main.js — P06 Hotel booking demo & wiring
+// main.js is the only application file allowed to import from internal/
 
-import { BookingService }           from './hotel_booking/booking.js';
-import { Guest, Room, DateRange }   from './hotel_booking/domain.js';
-import { InMemoryReservationStore } from './hotel_booking/stores.js';
-import { EmailNotificationSender }  from './hotel_booking/notifications.js';
+import { Room } from './src/rooms/index.js';
+import { InMemoryRoomCatalog } from './src/rooms/internal/catalog.js';
+import { BookingService, Guest, DateRange } from './src/reservations/index.js';
+import { InMemoryReservationStore } from './src/reservations/internal/store.js';
+import { EmailNotificationSender } from './src/notifications/internal/email.js';
 
-// Mehmonxonadagi xonalar
-const ROOMS = [
+const ROOMS = new InMemoryRoomCatalog([
   new Room('R7', 'Standard'),
   new Room('R8', 'Deluxe'),
-];
+]).all();
 
-// Mehmonlar
-const MAYA  = new Guest('Maya',  'maya@example.com');
-const OMAR  = new Guest('Omar',  'omar@example.com');
-const NORA  = new Guest('Nora',  'nora@example.com');
+const MAYA = new Guest('Maya', 'maya@example.com');
+const OMAR = new Guest('Omar', 'omar@example.com');
+const NORA = new Guest('Nora', 'nora@example.com');
 
-// Sana oralig'i yordamchi
 function nov(checkIn, checkOut) {
   return new DateRange(new Date(2026, 10, checkIn), new Date(2026, 10, checkOut));
 }
 
-// Xona nomlarini satr sifatida ko'rsatish
 function names(rooms) {
-  return rooms.map(r => r.id).join(', ');
+  return rooms.map(r => r.number ?? r.id).join(', ');
 }
 
-// ── Oddiy demo ────────────────────────────────────────────────────────────────
 function runDemo() {
-  // Faqat shu joyda haqiqiy store va sender tanlanadi
   const store         = new InMemoryReservationStore();
   const notifications = new EmailNotificationSender();
   const service       = new BookingService(ROOMS, store, notifications);
@@ -48,7 +40,6 @@ function runDemo() {
   console.log(`Confirmation emails sent:      ${notifications.sent}`);
 }
 
-// ── Race demo ─────────────────────────────────────────────────────────────────
 async function runRace() {
   const store   = new InMemoryReservationStore();
   const service = new BookingService(ROOMS, store, new EmailNotificationSender());
@@ -74,7 +65,6 @@ async function runRace() {
   console.log(confirmed > 1 ? 'Double booking!' : 'Faqat bitta mehmon R7 ga ega.');
 }
 
-// ── Entry point ───────────────────────────────────────────────────────────────
 if (process.argv.includes('--race')) {
   runRace();
 } else {

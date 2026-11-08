@@ -270,4 +270,91 @@
     </mxGraphModel>
   </diagram>
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       Sahifa 4 · Modules  (P06 Module Dependency Diagram)
+  ════════════════════════════════════════════════════════════════════ -->
+  <diagram id="modules" name="Modules">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1"
+                  tooltips="1" connect="1" arrows="1" fold="1" page="1"
+                  pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ── 1. Reservations (Green Box) ── -->
+        <mxCell id="box_diag_res" value="Reservations&#xa;&#xa;BookingService and the booking rule.&#xa;Uses only public contracts." parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#d5e8d4;strokeColor=#82b366;spacing=6;fontSize=12;">
+          <mxGeometry x="80" y="160" width="260" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ── 2. Rooms contract ── -->
+        <mxCell id="box_diag_rooms" value="Rooms contract&#xa;&#xa;IRoomCatalog, Room" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#ffffff;strokeColor=#666666;spacing=6;fontSize=12;">
+          <mxGeometry x="460" y="50" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ── 3. Payments contract ── -->
+        <mxCell id="box_diag_pay" value="Payments contract&#xa;&#xa;IPaymentService" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#ffffff;strokeColor=#666666;spacing=6;fontSize=12;">
+          <mxGeometry x="460" y="180" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ── 4. Notifications contract ── -->
+        <mxCell id="box_diag_notif_pub" value="Notifications contract&#xa;&#xa;INotificationSender, Confirmation" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#ffffff;strokeColor=#666666;spacing=6;fontSize=12;">
+          <mxGeometry x="460" y="310" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ── 5. Notifications internal (Purple Box) ── -->
+        <mxCell id="box_diag_notif_int" value="Notifications internal&#xa;&#xa;EmailNotificationSender" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#e1d5e7;strokeColor=#9673a6;spacing=6;fontSize=12;">
+          <mxGeometry x="780" y="310" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ── Allowed Dependencies (Dashed Arrows) ── -->
+
+        <!-- Reservations -> Rooms contract: Uses -->
+        <mxCell id="arrow_res_rooms" value="Uses" parent="1" edge="1"
+                source="box_diag_res" target="box_diag_rooms"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=classic;endFill=1;fontSize=11;strokeColor=#000000;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Reservations -> Payments contract: Uses -->
+        <mxCell id="arrow_res_pay" value="Uses" parent="1" edge="1"
+                source="box_diag_res" target="box_diag_pay"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=classic;endFill=1;fontSize=11;strokeColor=#000000;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Reservations -> Notifications contract: Uses -->
+        <mxCell id="arrow_res_notif" value="Uses" parent="1" edge="1"
+                source="box_diag_res" target="box_diag_notif_pub"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=classic;endFill=1;fontSize=11;strokeColor=#000000;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Notifications internal -> Notifications contract: Implements -->
+        <mxCell id="arrow_notif_impl" value="Implements" parent="1" edge="1"
+                source="box_diag_notif_int" target="box_diag_notif_pub"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=classic;endFill=1;fontSize=11;strokeColor=#000000;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ── Forbidden Dependency (Red Solid Arrow) ── -->
+        <mxCell id="arrow_res_notif_int" value="Forbidden: names EmailNotificationSender directly" parent="1" edge="1"
+                source="box_diag_res" target="box_diag_notif_int"
+                style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;endFill=1;fontSize=11;strokeColor=#b85450;fontColor=#b85450;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="460"/>
+              <mxPoint x="890" y="460"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
 </mxfile>

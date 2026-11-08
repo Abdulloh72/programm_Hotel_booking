@@ -47,3 +47,40 @@ Must stay the same:
 - Tests: all 8 tests pass (6 original + R6 + SMS).
 - Demo output: exactly the same 9 lines as before.
 - Race demo: still double-books (refactoring does not fix concurrency bugs; planned for P09).
+
+---
+
+# P06 design notes
+
+## Before
+- Tests: 8 passing tests.
+- Demo: exactly the same nine demo lines as P04.
+- Race: still double-booking (two guests book the same room at the same moment).
+
+## Modules
+
+| Module | Public contract (others may use) | Internal code (only the module, the wiring and the tests) |
+|---|---|---|
+| Rooms | Room, the room catalog promise | InMemoryRoomCatalog |
+| Reservations | BookingService, BookingResult, Reservation, DateRange, Guest, ReservationStatus, the store promise | InMemoryReservationStore |
+| Payments | PaymentStatus, the payment service promise | SimulatedPaymentService |
+| Notifications | Confirmation, the notification sender promise | EmailNotificationSender, SmsNotificationSender |
+
+## Architecture rules
+
+1. **Reservations uses only the public contracts of other modules:**
+   BookingService may use the Notifications contract (`Confirmation`), never the email sender. Notifications can change how it sends without touching booking.
+2. **Rooms does not depend on any other module:**
+   Rooms knows nothing about reservations, money or messages. Rooms is the base everything else builds on.
+3. **Payments and Notifications do not depend on Reservations:**
+   The arrows point one way, from Reservations outwards. No dependency circle, ever.
+
+## Broken on purpose
+The check "Reservations uses only the public contracts of other modules" failed when `src/reservations/booking.js` directly imported `EmailNotificationSender` from `../notifications/internal/email.js`. The failure output clearly pinpointed the violation: `reservations/booking.js illegally imports internal code: "import { EmailNotificationSender } from '../notifications/internal/email.js';"`. Removing the forbidden import restored all checks to green.
+
+## After
+- Tests: 11 green checks (8 behaviour tests + 3 architecture boundary checks).
+- Demo: the same nine demo lines as P04.
+- Race: still double-booking (refactoring and modularizing do not fix concurrency bugs; planned for P09).
+
+

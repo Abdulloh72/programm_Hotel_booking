@@ -7,6 +7,6 @@
   "scripts": {
     "start": "node main.js",
     "race":  "node main.js --race",
-    "test":  "node --test"
+    "test":  "node --test test/*.test.js"
   }
 }
