@@ -72,9 +72,10 @@ export class Reservation {
 // ── BookingResult ─────────────────────────────────────────────────────────────
 // reserve() ning natijasi: "Accepted R101" | "Unavailable" | "InvalidDates"
 export class BookingResult {
-  constructor(outcome, reservationId = null) {
-    this.outcome       = outcome;       // "Accepted", "Unavailable", "InvalidDates"
-    this.reservationId = reservationId; // "R101" yoki null
+  constructor(outcome, reservationId = null, notificationFailed = false) {
+    this.outcome            = outcome;            // "Accepted", "Unavailable", "InvalidDates"
+    this.reservationId      = reservationId;      // "R101" yoki null
+    this.notificationFailed = notificationFailed; // boolean (R6 qoidasi)
   }
 
   toString() {

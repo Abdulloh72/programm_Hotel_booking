@@ -17,3 +17,6 @@ When a booking is confirmed, the system sends an e-mail confirmation to the gues
 ## R5 · Cancel a booking
 A guest can cancel an existing reservation by its ID.
 The system removes it and the room becomes available again.
+
+## R6 · Failed message
+If the confirmation cannot be sent, the booking stays saved and Accepted, and the failure is reported.

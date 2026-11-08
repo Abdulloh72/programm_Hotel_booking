@@ -208,4 +208,66 @@
     </mxGraphModel>
   </diagram>
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       Sahifa 3 · Context map  (P05 Context mapping)
+  ════════════════════════════════════════════════════════════════════ -->
+  <diagram id="context_map" name="Context map">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1"
+                  tooltips="1" connect="1" arrows="1" fold="1" page="1"
+                  pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ── Top-Left: Rooms (Inventory) ── -->
+        <mxCell id="box_rooms" value="Rooms (Inventory)&#xa;&#xa;Room: number, type, nightly price.&#xa;In service or out of service.&#xa;Owns which rooms the hotel sells." parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#ffffff;strokeColor=#666666;spacing=6;fontSize=12;">
+          <mxGeometry x="80" y="60" width="280" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ── Top-Right: Payments ── -->
+        <mxCell id="box_payments" value="Payments&#xa;&#xa;Deposit: amount, Paid or Declined.&#xa;Owns money only.&#xa;Never decides if a room is free." parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#ffffff;strokeColor=#666666;spacing=6;fontSize=12;">
+          <mxGeometry x="520" y="60" width="280" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ── Bottom-Left: Reservations (Green Fill - Owns booking rule) ── -->
+        <mxCell id="box_res" value="Reservations&#xa;&#xa;Guest, stay dates, reservation R101.&#xa;Status: Confirmed or Cancelled.&#xa;Owns the booking rule." parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#d5e8d4;strokeColor=#82b366;spacing=6;fontSize=12;">
+          <mxGeometry x="80" y="320" width="280" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ── Bottom-Right: Notifications ── -->
+        <mxCell id="box_notif" value="Notifications&#xa;&#xa;Message, sent by email or SMS.&#xa;Status: Sent or Failed.&#xa;Owns delivery of messages." parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fontStyle=0;align=center;verticalAlign=middle;fillColor=#ffffff;strokeColor=#666666;spacing=6;fontSize=12;">
+          <mxGeometry x="520" y="320" width="280" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ── Arrows (ALL start at Reservations) ── -->
+
+        <!-- 1. Reservations -> Rooms (solid line): Asks: which rooms exist? -->
+        <mxCell id="arrow_res_rooms" value="Asks: which rooms exist?" parent="1" edge="1"
+                source="box_res" target="box_rooms"
+                style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;endFill=1;fontSize=11;strokeColor=#000000;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- 2. Reservations -> Payments (solid line): Asks: take a deposit (P17) -->
+        <mxCell id="arrow_res_payments" value="Asks: take a deposit (P17)" parent="1" edge="1"
+                source="box_res" target="box_payments"
+                style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;endFill=1;fontSize=11;strokeColor=#000000;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- 3. Reservations -> Notifications (dotted green line): Announces: ReservationConfirmed -->
+        <mxCell id="arrow_res_notif" value="Announces: ReservationConfirmed" parent="1" edge="1"
+                source="box_res" target="box_notif"
+                style="edgeStyle=orthogonalEdgeStyle;dashed=1;dashPattern=2 2;endArrow=classic;endFill=1;fontSize=11;strokeColor=#82b366;fontColor=#2e7d32;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
 </mxfile>

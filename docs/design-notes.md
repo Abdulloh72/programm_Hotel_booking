@@ -42,3 +42,8 @@ Must stay the same:
 - `BookingService` asks for exactly `ReservationStore` **(D: dependency inversion)**. In P07 we would have to edit `BookingService` just to use a database — the booking rules have not changed, but we still touch the file that contains them.
 
 - `BookingService` asks for exactly `EmailSender` **(D and O: dependency inversion + open/closed)**. Adding SMS means opening `BookingService` and editing its constructor and `reserve()` — working code that should never need to change for a new notification channel.
+
+## Proof
+- Tests: all 8 tests pass (6 original + R6 + SMS).
+- Demo output: exactly the same 9 lines as before.
+- Race demo: still double-books (refactoring does not fix concurrency bugs; planned for P09).

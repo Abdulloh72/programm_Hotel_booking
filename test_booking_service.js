@@ -1,7 +1,7 @@
 /**
  * test_booking_service.js
- * Step 2 – P03 xatti-harakatini "qulflash" uchun 6 ta test.
- * Refaktoring oldidan ham, keyin ham barcha 6 ta test o'tishi kerak.
+ * P04 – 8 ta to'liq test:
+ * 6 ta P03/P04 testlari + 2 ta Step 7 testlari (R6 va SMS).
  *
  * Ishga tushirish: node --test test_booking_service.js
  */
@@ -9,13 +9,27 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-// ── Yangilangan import (5.6): yangi klasslar ─────────────────────────────────
 import { BookingService }           from './hotel_booking/booking.js';
 import { Guest, Room, DateRange }   from './hotel_booking/domain.js';
 import { InMemoryReservationStore } from './hotel_booking/stores.js';
-import { EmailNotificationSender }  from './hotel_booking/notifications.js';
+import { SmsNotificationSender }    from './hotel_booking/notifications.js';
 
-// ── Umumiy ma'lumotlar (o'zgarmadi) ──────────────────────────────────────────
+// ── Testlar uchun FakeNotificationSender (Step 7.1) ───────────────────────────
+class FakeNotificationSender {
+  constructor(fail = false) {
+    this.fail = fail;
+    this.sent = []; // yuborilgan reservation ID lari
+  }
+
+  sendConfirmation(reservation) {
+    if (this.fail) {
+      throw new Error('The mail server is down.');
+    }
+    this.sent.push(reservation.id);
+  }
+}
+
+// ── Umumiy ma'lumotlar ────────────────────────────────────────────────────────
 
 const R7   = new Room('R7', 'Standard');
 const R8   = new Room('R8', 'Deluxe');
@@ -31,76 +45,81 @@ function nov(checkIn, checkOut) {
   );
 }
 
-// ── Yangilangan newService (5.6) ──────────────────────────────────────────────
-// Faqat shu funksiya o'zgardi — barcha 6 ta test body o'zgarmadi!
-function newService() {
-  const store         = new InMemoryReservationStore();  // ← yangi nom
-  const notifications = new EmailNotificationSender();   // ← yangi nom
-  const service       = new BookingService([R7, R8], store, notifications);
-  return [service, store, notifications];
+// Yangi service qurish yordamchisi (har qanday senderni qabul qiladi)
+function newService(failingSender = false) {
+  const store   = new InMemoryReservationStore();
+  const sender  = new FakeNotificationSender(failingSender);
+  const service = new BookingService([R7, R8], store, sender);
+  return [service, store, sender];
 }
 
-// ── 6 ta test (body lar butunlay o'zgarmagan) ─────────────────────────────────
+// ── 8 ta test ─────────────────────────────────────────────────────────────────
 
-// Test 1 · Bo'sh xona bron qilinadi
+// 1. Bo'sh xona bron qilinadi
 test('Maya gets R7 when it is free', () => {
   const [service] = newService();
-
   const result = service.reserve(MAYA, R7, nov(12, 14));
-
   assert.strictEqual(String(result), 'Accepted R101');
 });
 
-// Test 2 · To'qnashuv rad etiladi
+// 2. To'qnashuv rad etiladi
 test('Omar is refused when a night is shared', () => {
   const [service, store] = newService();
-
   service.reserve(MAYA, R7, nov(12, 14));
   const result = service.reserve(OMAR, R7, nov(13, 15));
-
   assert.strictEqual(String(result), 'Unavailable');
   assert.strictEqual(store.count(), 1);
 });
 
-// Test 3 · Ketma-ket qo'shni sanalar mumkin
+// 3. Ketma-ket qo'shni sanalar mumkin
 test('Nora can arrive on the day Maya leaves', () => {
   const [service] = newService();
-
   service.reserve(MAYA, R7, nov(12, 14));
   const result = service.reserve(NORA, R7, nov(14, 16));
-
   assert.strictEqual(String(result), 'Accepted R102');
 });
 
-// Test 4 · Noto'g'ri sanalar rad etiladi
+// 4. Noto'g'ri sanalar rad etiladi
 test('check-out must be after check-in', () => {
   const [service, store] = newService();
-
   const result = service.reserve(OMAR, R8, nov(15, 15));
-
   assert.strictEqual(String(result), 'InvalidDates');
   assert.strictEqual(store.count(), 0);
 });
 
-// Test 5 · Bekor qilingan xona qayta bo'sh bo'ladi
+// 5. Bekor qilingan xona qayta bo'sh bo'ladi
 test('cancelling frees the room again', () => {
   const [service] = newService();
-
   service.reserve(MAYA, R7, nov(12, 14));
   const ok = service.cancel('R101');
-
   assert.strictEqual(ok, true);
   const freeRooms = service.findFreeRooms(nov(12, 14));
   assert.ok(freeRooms.includes(R7), 'R7 should be free after cancellation');
 });
 
-// Test 6 · Faqat qabul qilingan bronlarga email yuboriladi
+// 6. Faqat qabul qilingan bronlar tasdiqlanadi (ID lari tekshiriladi)
 test('one confirmation per accepted booking', () => {
-  const [service, , notifications] = newService();
+  const [service, , sender] = newService();
+  service.reserve(MAYA, R7, nov(12, 14)); // Accepted
+  service.reserve(OMAR, R7, nov(13, 15)); // Unavailable
+  service.reserve(NORA, R7, nov(14, 16)); // Accepted
+  assert.deepStrictEqual(sender.sent, ['R101', 'R102']);
+});
 
-  service.reserve(MAYA, R7, nov(12, 14)); // Accepted → email
-  service.reserve(OMAR, R7, nov(13, 15)); // Unavailable → email yo'q
-  service.reserve(NORA, R7, nov(14, 16)); // Accepted → email
+// 7. R6 · Xabar jo'natish xatosi bronni bekor qilmaydi
+test('a failed confirmation keeps the booking', () => {
+  const [service, store] = newService(true); // server ishlamayapti (fail = true)
+  const result = service.reserve(MAYA, R7, nov(12, 14));
 
-  assert.strictEqual(notifications.sent, 2);
+  assert.strictEqual(String(result), 'Accepted R101');
+  assert.strictEqual(result.notificationFailed, true);
+  assert.strictEqual(store.count(), 1);
+});
+
+// 8. SMS jo'natish BookingService ga tegilmasdan ishlaydi (Open/Closed)
+test('sms confirmations need no change to booking service', () => {
+  const sms     = new SmsNotificationSender();
+  const service = new BookingService([R7, R8], new InMemoryReservationStore(), sms);
+  service.reserve(MAYA, R7, nov(12, 14));
+  assert.strictEqual(sms.sent, 1);
 });

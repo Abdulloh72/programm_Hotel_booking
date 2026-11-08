@@ -1,30 +1,41 @@
 // notifications.js
 //
-// "Interfeys" (shartnoma) — JavaScript da interfeys yo'q,
-// lekin JSDoc orqali qoidani aniq yozamiz:
+// "Interfeys" (shartnoma):
+//   INotificationSender — BookingService ga kerakli narsa:
+//     sendConfirmation(reservation): void
 //
-// INotificationSender — BookingService dan kerakli narsa:
-//   sendConfirmation(reservation): void
-//
-// Bu shartnomani bajaruvchi har qanday klass BookingService bilan ishlaydi.
-// (Email, SMS, Fake — barchasi)
+// Barcha jo'natuvchilar shu shartnomani bajaradi.
 
 /**
  * @interface INotificationSender
- * @method sendConfirmation(reservation) - Mehmon xabardor qilinadi
+ * @method sendConfirmation(reservation)
  */
 
-// EmailNotificationSender — INotificationSender ni bajaradi
+// 1. Email jo'natuvchi
 export class EmailNotificationSender {
   constructor() {
-    this.sent = 0; // nechta email yuborildi
+    this.sent = 0;
   }
 
-  // Shartnomadagi yagona metod
   sendConfirmation(reservation) {
     this.sent++;
     console.log(
       `[EMAIL] To: ${reservation.guest.email} | ` +
+      `Booking confirmed – Room ${reservation.room.id}`
+    );
+  }
+}
+
+// 2. SMS jo'natuvchi (Step 7 da BookingService ga tegmasdan qo'shildi - Open/Closed!)
+export class SmsNotificationSender {
+  constructor() {
+    this.sent = 0;
+  }
+
+  sendConfirmation(reservation) {
+    this.sent++;
+    console.log(
+      `[SMS] To: ${reservation.guest.name} | ` +
       `Booking confirmed – Room ${reservation.room.id}`
     );
   }

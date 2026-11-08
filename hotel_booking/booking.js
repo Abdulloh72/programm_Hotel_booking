@@ -38,9 +38,15 @@ export class BookingService {
     const reservation = new Reservation(id, guest, room, stay);
 
     this._store.save(reservation);
-    this._notifications.sendConfirmation(reservation);
 
-    return new BookingResult('Accepted', id); // → "Accepted R101"
+    try {
+      this._notifications.sendConfirmation(reservation);
+    } catch {
+      // R6: booking saqlab bo'lingan, xabar yuborishdagi xato uni bekor qilmaydi
+      return new BookingResult('Accepted', id, true);
+    }
+
+    return new BookingResult('Accepted', id, false); // → "Accepted R101"
   }
 
   // R5 · Bron bekor qilish
